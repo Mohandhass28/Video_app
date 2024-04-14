@@ -5,6 +5,7 @@ import { images } from "../../constants";
 import FormField from "../../components/FormField";
 import CustomButton from "../../components/CustomButton";
 import { Link } from "expo-router";
+import { createAccount, signIn } from "../../lib/appwrite";
 
 const SignIn = () => {
   const [isSubmitting, setSubmitting] = useState(false);
@@ -13,7 +14,9 @@ const SignIn = () => {
     password: "",
   });
 
-  const submit = () => {};
+  const submit = async () => {
+    await signIn(form.email, form.password);
+  };
 
   return (
     <SafeAreaView className="bg-primary h-full">
