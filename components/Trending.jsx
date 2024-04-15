@@ -34,7 +34,7 @@ const TrendingItem = ({ activeItem, item }) => {
   return (
     <Animatable.View
       className="mr-5"
-      animation={activeItem === item.$id ? zoomIn : zoomOut}
+      animation={activeItem === item.id ? zoomIn : zoomOut}
       duration={500}
     >
       {play ? (
@@ -88,9 +88,9 @@ const Trending = ({ posts }) => {
     <FlatList
       data={posts}
       horizontal
-      keyExtractor={(item) => item.$id}
+      keyExtractor={(item) => item.id}
       renderItem={({ item }) => (
-        <TrendingItem activeItem={activeItem} item={item} />
+        <TrendingItem activeItem={activeItem} item={item} key={item.id} />
       )}
       onViewableItemsChanged={viewableItemsChanged}
       viewabilityConfig={{

@@ -1,4 +1,4 @@
-import { View, Text, FlatList, Image } from "react-native";
+import { View, Text, FlatList, Image, RefreshControl } from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
@@ -14,7 +14,6 @@ const home = () => {
   const { data: latestPosts } = useAppwrite(getLatestPosts);
 
   const [refreshing, setRefreshing] = useState(false);
-
   const onRefresh = async () => {
     setRefreshing(true);
     await refetch();
@@ -33,6 +32,7 @@ const home = () => {
             video={item.video}
             creator={item.creator.username}
             avatar={item.creator.avatar}
+            key={item.id}
           />
         )}
         ListHeaderComponent={() => (
@@ -70,6 +70,9 @@ const home = () => {
             title="No Videos Found"
             subtitle="No videos created yet"
           />
+        }
+        refreshControl={
+          <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }
       />
     </SafeAreaView>
