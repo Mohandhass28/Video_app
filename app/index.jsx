@@ -6,6 +6,7 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../constants";
 import CustomButton from "../components/CustomButton";
 import { useGlobalContext } from "../context/GlobalContext";
+import Loading from "../components/Loading";
 
 const index = () => {
   const { loading, isLogged } = useGlobalContext();
@@ -13,7 +14,7 @@ const index = () => {
 
   return (
     <SafeAreaView className="bg-primary h-full">
-      {/* <Loader isLoading={loading} /> */}
+      <Loading isLoading={loading} />
 
       <ScrollView
         contentContainerStyle={{
