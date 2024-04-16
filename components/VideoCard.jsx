@@ -3,18 +3,50 @@ import { ResizeMode, Video } from "expo-av";
 import { View, Text, TouchableOpacity, Image } from "react-native";
 
 import { icons } from "../constants";
+import { router, usePathname } from "expo-router";
 
-const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
+const VideoCard = ({ title, creator, avatar, thumbnail, video, id }) => {
   const [play, setPlay] = useState(false);
-
+  const pathname = usePathname();
   return (
     <View className="flex flex-col items-center px-4 mb-14">
-      <View className="flex flex-row gap-3 items-start">
+      <TouchableOpacity
+        activeOpacity={0.7}
+        onPress={() => {
+          router.push({
+            pathname: `/videoplayer/${id}`,
+            params: {
+              title,
+              creator,
+              avatar,
+              thumbnail,
+              video,
+            },
+          });
+        }}
+        className="w-full h-60 rounded-xl mt-3 relative flex justify-center items-center"
+      >
+        <Image
+          source={{ uri: thumbnail }}
+          className="w-full h-full rounded-xl mt-3"
+          resizeMode="cover"
+        />
+
+        <Image
+          source={icons.play}
+          className="w-12 h-12 absolute"
+          resizeMode="contain"
+        />
+      </TouchableOpacity>
+      <View
+        className="flex flex-row gap-3 items-center mt-1"
+        style={{ paddingHorizontal: 10 }}
+      >
         <View className="flex justify-center items-center flex-row flex-1">
-          <View className="w-[46px] h-[46px] rounded-lg border border-secondary flex justify-center items-center p-0.5">
+          <View className="w-[46px] h-[46px] rounded-3xl flex justify-center items-center p-0.5">
             <Image
               source={{ uri: avatar }}
-              className="w-full h-full rounded-lg"
+              className="w-full h-full rounded-3xl"
               resizeMode="cover"
             />
           </View>
@@ -39,39 +71,6 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
           <Image source={icons.menu} className="w-5 h-5" resizeMode="contain" />
         </View>
       </View>
-
-      {play ? (
-        <Video
-          source={{ uri: video }}
-          className="w-full h-60 rounded-xl mt-3"
-          resizeMode={ResizeMode.CONTAIN}
-          useNativeControls
-          shouldPlay
-          onPlaybackStatusUpdate={(status) => {
-            if (status.didJustFinish) {
-              setPlay(false);
-            }
-          }}
-        />
-      ) : (
-        <TouchableOpacity
-          activeOpacity={0.7}
-          onPress={() => setPlay(true)}
-          className="w-full h-60 rounded-xl mt-3 relative flex justify-center items-center"
-        >
-          <Image
-            source={{ uri: thumbnail }}
-            className="w-full h-full rounded-xl mt-3"
-            resizeMode="cover"
-          />
-
-          <Image
-            source={icons.play}
-            className="w-12 h-12 absolute"
-            resizeMode="contain"
-          />
-        </TouchableOpacity>
-      )}
     </View>
   );
 };

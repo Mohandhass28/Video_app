@@ -1,4 +1,11 @@
-import { View, Text, FlatList, Image, RefreshControl } from "react-native";
+import {
+  View,
+  Text,
+  FlatList,
+  Image,
+  RefreshControl,
+  TouchableOpacity,
+} from "react-native";
 import React, { useState } from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { images } from "../../constants";
@@ -8,6 +15,8 @@ import useAppwrite from "../../lib/UseAppWrite";
 import VideoCard from "../../components/VideoCard";
 import { getAllPosts, getLatestPosts } from "../../lib/appwrite";
 import Trending from "../../components/Trending";
+import { router } from "expo-router";
+import { ResizeMode, Video } from "expo-av";
 
 const home = () => {
   const { data: posts, refetch } = useAppwrite(getAllPosts);
@@ -25,16 +34,19 @@ const home = () => {
       <FlatList
         data={posts}
         keyExtractor={(item) => item.id}
-        renderItem={({ item }) => (
-          <VideoCard
-            title={item.title}
-            thumbnail={item.thumbnail}
-            video={item.video}
-            creator={item.creator.username}
-            avatar={item.creator.avatar}
-            key={item.id}
-          />
-        )}
+        renderItem={({ item }) => {
+          return (
+            <VideoCard
+              title={item.title}
+              thumbnail={item.thumbnail}
+              video={item.video}
+              creator={item.creator.username}
+              avatar={item.creator.avatar}
+              id={item.$id}
+              key={item.id}
+            />
+          );
+        }}
         ListHeaderComponent={() => (
           <View className="px-4 space-y-6">
             <View className="flex-row items-center justify-between mb-6">
@@ -56,13 +68,13 @@ const home = () => {
 
             <SearchInput />
 
-            <View className="w-full flex-1 pt-5 pb-8">
+            {/* <View className="w-full flex-1 pt-5 pb-8">
               <Text className="text-lg font-pregular text-gray-100 mb-3">
                 Latest Videos
               </Text>
 
               <Trending posts={latestPosts ?? []} />
-            </View>
+            </View> */}
           </View>
         )}
         ListEmptyComponent={
