@@ -9,7 +9,7 @@ const VideoCard = ({ title, creator, avatar, thumbnail, video, id }) => {
   const [play, setPlay] = useState(false);
   const pathname = usePathname();
   return (
-    <View className="flex flex-col items-center px-4 mb-14">
+    <View className={"flex flex-col items-center mb-5"}>
       <TouchableOpacity
         activeOpacity={0.7}
         onPress={() => {
